@@ -17,7 +17,6 @@ You can use this repo to find out the following:
 - How to traverse the AST.
 - How to access user-geerated source code from a VS Code extension.
 - How to create custom VS Code commands.
-- How to perform web request from a VS Code extension.
 - How to render a new page after triggering custom VS Code commands.
 
 ## About the source code
