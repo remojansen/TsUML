@@ -39,17 +39,11 @@ The `getDiagram` function uses other core components:
 The function returns a `Promise<string>`. If the promise
 is fulfilled, the returned string value will contain a svg diagram.
 
-### /src/extension
+### /src/extension & /src/provider
 Contains the actial VS Code extension. It declares a new custom
 command. When the command is executed the current source file is
 passed to the code to get a class diagram. The diagram is then
 displayed in a new panel.
-
-### /test/
-TODO
-
-### /test/data
-TODO
 
 ## Missing features
 Feel free to send PRs:
