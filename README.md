@@ -52,6 +52,8 @@ Feel free to send PRs:
 
 ## Resources
 I used the following links during the hackathon:
-- https://code.visualstudio.com/docs/extensionAPI/overview
 - https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API
-- http://www.nomnoml.com/
+- https://github.com/skanaar/nomnoml
+- https://code.visualstudio.com/docs/extensionAPI/overview
+- https://code.visualstudio.com/Docs/extensions/example-hello-world
+- https://code.visualstudio.com/docs/extensionAPI/vscode-api
