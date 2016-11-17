@@ -2,7 +2,7 @@
   "name": "tsuml",
   "displayName": "TsUML",
   "description": "Generate class diagrams for TypeScript",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.1",
   "publisher": "owerreloaded",
   "engines": {
     "vscode": "^1.5.0"
