@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import interfaces from "../interfaces/interfaces";
 
-function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.ClassDetails[] {
+function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.EntityDetails[] {
 
     // Build a program using the set of root file names in fileNames
     let program = ts.createProgram(fileNames, options);
@@ -10,7 +10,7 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Cla
     let checker = program.getTypeChecker();
 
     // The final result
-    let output: interfaces.ClassDetails[] = [];
+    let output: interfaces.EntityDetails[] = [];
 
     //  visit nodes finding exported classes
     function visit(node: ts.Node) {
@@ -35,15 +35,16 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Cla
     // Serialize a class symbol infomration
     function serializeClass(symbol: ts.Symbol) {
 
-        let classDetails: interfaces.ClassDetails = {
+        let EntityDetails: interfaces.EntityDetails = {
+            kind: "class",
             name: symbol.getName(),
             props: [],
             methods: []
         };
 
-        classDetails.props = serializeProperties(symbol);
-        classDetails.methods = serializeMethods(symbol);
-        return classDetails;
+        EntityDetails.props = serializeProperties(symbol);
+        EntityDetails.methods = serializeMethods(symbol);
+        return EntityDetails;
 
     }
 

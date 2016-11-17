@@ -29,8 +29,8 @@ source files.
 
 The `getDiagram` function uses other core components:
 
-- **Parser**: Traversed the TypeScript AST to create a `ClassDetails` data structure.
-- **Serializer**: Transfroms `ClassDetails` data structure into the UML DSL.
+- **Parser**: Traversed the TypeScript AST to create a `EntityDetails` data structure.
+- **Serializer**: Transfroms `EntityDetails` data structure into the UML DSL.
 - **Renderer**: Transforms the DSL into a SVG class diagram.
 
 The function returns a `Promise<string>`. If the promise
@@ -51,7 +51,7 @@ Feel free to send PRs:
 ## Resources
 I used the following links during the hackathon:
 - https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API
-- https://github.com/skanaar/nomnoml
+- http://yuml.me/
 - https://code.visualstudio.com/docs/extensionAPI/overview
 - https://code.visualstudio.com/Docs/extensions/example-hello-world
 - https://code.visualstudio.com/docs/extensionAPI/vscode-api

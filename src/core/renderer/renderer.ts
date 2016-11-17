@@ -1,16 +1,22 @@
+import { activate } from '../../extension';
 import interfaces from "../interfaces/interfaces";
 import * as http from "http";
 import * as fs from "fs";
-import * as nomnoml from "nomnoml";
+import * as request from "request";
 
-function render(umlString: string): Promise<string> {
+function render(dsl: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-        try {
-            let svg = nomnoml.renderSvg(umlString);
-            resolve(svg);
-        } catch(e) {
-            reject(e);
-        }
+        request.post(
+            "http://yuml.me/diagram/plain/class/",
+            { json: { dsl_text: dsl } },
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    resolve(body);
+                } else {
+                    reject(body);
+                }
+            }
+        );
     });
 }
 

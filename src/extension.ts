@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 import getDiagram from "./core/index";
 import TsUMLProvider from "./provider";
 
@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
     // The code you place here will be executed every time your command is executed
-    let disposable = vscode.commands.registerCommand('extension.tsuml', () => {
+    let disposable = vscode.commands.registerCommand("extension.tsuml", () => {
 
         // Files to be parsed and displayed in the class diagram
         let files = vscode.window.visibleTextEditors.map((editor) => {
@@ -30,15 +30,18 @@ export function activate(context: vscode.ExtensionContext) {
         });
 
         // Generate UML deagram for current source file
-        getDiagram(files).then((svg) => {
-            let data = encodeURIComponent(svg);
-            let previewUri = vscode.Uri.parse(`${TsUMLProvider.scheme}://authority/${TsUMLProvider.scheme}?uml=${data}`);
+        getDiagram(files).then((file) => {
+
+            let url = `${TsUMLProvider.scheme}://authority/${TsUMLProvider.scheme}?file=${file}`;
+            let previewUri = vscode.Uri.parse(url);
 
             return vscode.commands.executeCommand(
                 "vscode.previewHtml",
                 previewUri,
                 vscode.ViewColumn.Two
-            ).then(s => console.log('done.'), vscode.window.showErrorMessage);
+            ).then(s => {
+                console.log("tsuml planel displayed!");
+            }, vscode.window.showErrorMessage);
 
 
         }).catch((error) => {
@@ -48,7 +51,8 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(
-        disposable
+        disposable,
+        registration
     );
 }
 

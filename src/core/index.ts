@@ -4,25 +4,21 @@ import serialize from "./serializer/serializer";
 import render from "./renderer/renderer";
 
 function getDiagram(tsFilePaths: string[]): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-    
-        if (tsFilePaths.length === 0) {
-            reject("Missing input files!");
-        }
 
-        let options = {
-            target: ts.ScriptTarget.ES5,
-            module: ts.ModuleKind.CommonJS
-        };
+    if (tsFilePaths.length === 0) {
+        Promise.reject("Missing input files!");
+    }
 
-        let classesDetails = parse(tsFilePaths, options);
-        let umlStr = classesDetails.map((classDetails) => serialize(classDetails)).reduce((p, c) => `${p}\n${c}`, "");
+    let options = {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES5,
+    };
 
-        render(umlStr).then((svg) => {
-            resolve(svg);
-        });
+    let entitiesDetails = parse(tsFilePaths, options);
+    let dsl = serialize(entitiesDetails);
 
-    });
+    return render(dsl);
+
 }
 
 export default getDiagram;

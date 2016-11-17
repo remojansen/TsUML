@@ -16,13 +16,23 @@ module interfaces {
         args: ArgDetails[];
     }
 
-    export interface ClassDetails {
+    export type EntityKind = "class" | "interface" | "abstract_class";
+
+    export interface EntityDetails {
+        kind: EntityKind;
         name: string;
         props: PropDetails[];
         methods: MethodDetails[];
     }
 
+    export type EntityRelationshipKind = "implementation" | "extension" | "composition";
+
+    export interface EntityRelationShip {
+        kind: EntityRelationshipKind;
+        left: EntityDetails;
+        right: EntityDetails;
+    }
+
 }
 
 export default interfaces;
- 
