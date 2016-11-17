@@ -23,14 +23,14 @@ module interfaces {
         name: string;
         props: PropDetails[];
         methods: MethodDetails[];
+        relationships: EntityRelationShip[];
     }
 
     export type EntityRelationshipKind = "implementation" | "extension" | "composition";
 
     export interface EntityRelationShip {
         kind: EntityRelationshipKind;
-        left: EntityDetails;
-        right: EntityDetails;
+        link: string;
     }
 
 }

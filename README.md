@@ -1,7 +1,7 @@
 # 2016 MVP Global Summit Hackathon
 This VS Code extension was developed during a hackathon at the 2016 MVP Global Summit. This extension allows you to auto-generate UML diagrams for TypeScript applications:
 
-![](preview.gif)
+![](/assets/preview.gif)
 
 ## About this repo
 Please do not expect this to be a production-ready extension: **IT IS JUST AN EXPERIMENT**.
