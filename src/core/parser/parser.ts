@@ -24,8 +24,7 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
             // This is a top level class, get its symbol
             let symbol = checker.getSymbolAtLocation((<ts.ClassDeclaration>node).name);
             output.push(serializeClass(symbol));
-        }
-        else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
+        } else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
             // This is a namespace, visit its children
             ts.forEachChild(node, visit);
         }
@@ -37,9 +36,9 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
 
         let EntityDetails: interfaces.EntityDetails = {
             kind: "class",
+            methods: [],
             name: symbol.getName(),
             props: [],
-            methods: []
         };
 
         EntityDetails.props = serializeProperties(symbol);
@@ -55,12 +54,12 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
         ts.forEachChild(symbol.valueDeclaration, (node) => {
 
             if (node.kind === ts.SyntaxKind.PropertyDeclaration) {
-    
-                let symbol = checker.getSymbolAtLocation((<ts.PropertyDeclaration>node).name);
-                let propertyType = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
+
+                let sym = checker.getSymbolAtLocation((<ts.PropertyDeclaration>node).name);
+                let propertyType = checker.getTypeOfSymbolAtLocation(sym, sym.valueDeclaration);
 
                 props.push({
-                    name: symbol.name,
+                    name: sym.name,
                     type: checker.typeToString(propertyType)
                 });
 
@@ -80,20 +79,20 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
 
             if (node.kind === ts.SyntaxKind.MethodDeclaration) {
 
-                let symbol = checker.getSymbolAtLocation((<ts.MethodDeclaration>node).name);
-                let methodType = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
+                let sym = checker.getSymbolAtLocation((<ts.MethodDeclaration>node).name);
+                let methodType = checker.getTypeOfSymbolAtLocation(sym, sym.valueDeclaration);
                 let methodSignature = methodType.getCallSignatures()[0];
 
                 methods.push({
-                    name: symbol.name,
-                    returnType: checker.typeToString(methodSignature.getReturnType()),
                     args: methodSignature.getParameters().map((parameter) => {
                         let parameterType = checker.getTypeOfSymbolAtLocation(parameter, parameter.valueDeclaration);
                         return {
                             name: parameter.getName(),
                             type: checker.typeToString(parameterType)
                         };
-                    })
+                    }),
+                    name: sym.name,
+                    returnType: checker.typeToString(methodSignature.getReturnType())
                 });
             }
 
@@ -105,7 +104,8 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
 
     // True if this is visible outside this file, false otherwise
     function isNodeExported(node: ts.Node): boolean {
-        return (node.flags & ts.NodeFlags.Export) !== 0 || (node.parent && node.parent.kind === ts.SyntaxKind.SourceFile);
+        return (node.flags && ts.NodeFlags.Export) !== 0 ||
+               (node.parent && node.parent.kind === ts.SyntaxKind.SourceFile);
     }
 
     // Visit every sourceFile in the program    

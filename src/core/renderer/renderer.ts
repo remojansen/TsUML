@@ -1,7 +1,3 @@
-import { activate } from '../../extension';
-import interfaces from "../interfaces/interfaces";
-import * as http from "http";
-import * as fs from "fs";
 import * as request from "request";
 
 function render(dsl: string): Promise<string> {
@@ -10,7 +6,7 @@ function render(dsl: string): Promise<string> {
             "http://yuml.me/diagram/plain/class/",
             { json: { dsl_text: dsl } },
             function (error, response, body) {
-                if (!error && response.statusCode == 200) {
+                if (!error && response.statusCode === 200) {
                     resolve(body);
                 } else {
                     reject(body);

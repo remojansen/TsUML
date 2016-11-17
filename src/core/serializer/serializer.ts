@@ -67,7 +67,7 @@ function serialize(entities: interfaces.EntityDetails[]) {
 
     // Add entitites
     let dsl = entities.map((entity) => {
-        switch(entity.kind) {
+        switch (entity.kind) {
             case "class":
                 return serializeClass(entity);
             case "interface":
