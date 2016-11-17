@@ -39,9 +39,7 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
             methods: [],
             name: symbol.getName(),
             props: [],
-            relationships: [
-                { kind: "extension", link: "B" }
-            ]
+            relationships: []
         };
 
         EntityDetails.props = serializeProperties(symbol);
