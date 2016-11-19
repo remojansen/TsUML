@@ -82,7 +82,10 @@ function serialize(entities: interfaces.EntityDetails[]) {
             default:
                 throw new Error("Entity Kind Not Supported!");
         }
-    }).reduce((a, b) => `${a}${b}`, "").split("<").join("-").split(">").join("-");
+    }).reduce((a, b) => `${a}${b}`, "")
+      .split("=>").join("⇒")
+      .split("<").join("◅")
+      .split(">").join("▻");
 
     // Add relationships
     let extensionDsl = entities.map(serializeInheritanceRelationships).reduce((a, b) => `${a}${b}`, "");

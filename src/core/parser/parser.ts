@@ -23,7 +23,7 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
         if (node.kind === ts.SyntaxKind.ClassDeclaration) {
             // This is a top level class, get its symbol
             let symbol = checker.getSymbolAtLocation((<ts.ClassDeclaration>node).name);
-            output.push(serializeClass(symbol));
+            output.push(parseClass(symbol));
         } else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
             // This is a namespace, visit its children
             ts.forEachChild(node, visit);
@@ -31,24 +31,24 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
 
     }
 
-    // Serialize a class symbol infomration
-    function serializeClass(symbol: ts.Symbol) {
+    // Parse a class symbol imformation
+    function parseClass(symbol: ts.Symbol) {
 
         let EntityDetails: interfaces.EntityDetails = {
             kind: "class",
             methods: [],
             name: symbol.getName(),
             props: [],
-            relationships: []
+            relationships: [] // TODO
         };
 
-        EntityDetails.props = serializeProperties(symbol);
-        EntityDetails.methods = serializeMethods(symbol);
+        EntityDetails.props = parseProperties(symbol);
+        EntityDetails.methods = parseMethods(symbol);
         return EntityDetails;
 
     }
 
-    function serializeProperties(symbol: ts.Symbol): interfaces.PropDetails[] {
+    function parseProperties(symbol: ts.Symbol): interfaces.PropDetails[] {
 
         let props: interfaces.PropDetails[] = [];
 
@@ -72,7 +72,7 @@ function parse(fileNames: string[], options: ts.CompilerOptions): interfaces.Ent
 
     }
 
-    function serializeMethods(symbol: ts.Symbol): interfaces.MethodDetails[] {
+    function parseMethods(symbol: ts.Symbol): interfaces.MethodDetails[] {
 
         let methods: interfaces.MethodDetails[] = [];
 
