@@ -1,41 +1,43 @@
 {
   "name": "tsuml",
-  "displayName": "TsUML",
-  "description": "Generate class diagrams for TypeScript",
   "version": "0.0.1-alpha.1",
-  "publisher": "owerreloaded",
-  "engines": {
-    "vscode": "^1.5.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:extension.tsuml"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "extension.tsuml",
-        "title": "Show Class Diagram"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+  "description": "UML diagrams for TypeScript",
+  "main": "./dist/lib/index.js",
+  "bin": "./dist/bin/index.js",
+  "devDependencies": {
+    "@types/glob": "5.0.35",
+    "@types/lodash": "4.14.106",
+    "@types/node": "9.6.0",
+    "@types/request": "2.47.0",
+    "@types/yargs": "11.0.0"
   },
   "dependencies": {
-    "request": "^2.78.0"
+    "chalk": "2.3.2",
+    "glob": "7.1.2",
+    "lodash": "4.17.5",
+    "request": "2.85.0",
+    "ts-simple-ast": "9.5.0",
+    "typescript": "2.7.2",
+    "yargs": "11.0.0"
   },
-  "devDependencies": {
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.40",
-    "@types/request": "0.0.33",
-    "mocha": "^2.3.3",
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
-  }
+  "scripts": {
+    "test": "tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remojansen/TsUML.git"
+  },
+  "keywords": [
+    "typescript",
+    "uml",
+    "diagram",
+    "generator",
+    "class"
+  ],
+  "author": "Remo H. Jansen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/remojansen/TsUML/issues"
+  },
+  "homepage": "https://github.com/remojansen/TsUML#readme"
 }

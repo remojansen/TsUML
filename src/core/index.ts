@@ -1,24 +1,45 @@
-import * as ts from "typescript";
-import parse from "./parser/parser";
-import serialize from "./serializer/serializer";
-import render from "./renderer/renderer";
+import * as fs from "fs";
+import chalk from "chalk";
+import { flatten, join } from "lodash";
+import { findFilesByGlob } from "./io";
+import { getAst, parseClasses, parseInterfaces, parseHeritageClauses } from "./parser";
+import { emitSingleClass, emitSingleInterface, emitHeritageClauses } from "./emitter";
+import { render } from "./renderer";
 
-function getDiagram(tsFilePaths: string[]): Promise<string> {
+export async function yUML(tsConfigPath: string, pattern: string) {
 
-    if (tsFilePaths.length === 0) {
-        Promise.reject("Missing input files!");
-    }
+  const sourceFilesPaths = await findFilesByGlob(pattern);
 
-    let options = {
-        module: ts.ModuleKind.CommonJS,
-        target: ts.ScriptTarget.ES5,
+  console.log(
+    chalk.yellowBright(
+      "Matched files:\n" + sourceFilesPaths.map(s => `${s}\n`)
+    )
+  );
+
+  const ast = getAst(tsConfigPath, sourceFilesPaths);
+  const files = ast.getSourceFiles();
+
+  // parser
+  const declarations = files.map(f => {
+    const classes = f.getClasses();
+    const interfaces = f.getInterfaces();
+    const path = f.getFilePath();
+    return {
+      fileName: path,
+      classes: classes.map(parseClasses),
+      heritageClauses: classes.map(parseHeritageClauses),
+      interfaces: interfaces.map(parseInterfaces)
     };
+  });
 
-    let entitiesDetails = parse(tsFilePaths, options);
-    let dsl = serialize(entitiesDetails);
+  // emitter
+  const entities = declarations.map(d => {
+    const classes = d.classes.map((c) => emitSingleClass(c.className, c.properties, c.methods));
+    const interfaces = d.interfaces.map((i) => emitSingleInterface(i.interfaceName, i.properties, i.methods));
+    const heritageClauses = d.heritageClauses.map(emitHeritageClauses);
+    return [...classes, ...interfaces, ...heritageClauses];
+  });
 
-    return render(dsl);
+  return join(flatten(entities), ",");
 
 }
-
-export default getDiagram;

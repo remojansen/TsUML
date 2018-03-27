@@ -1,0 +1,1 @@
+export { yUML } from "../core";
