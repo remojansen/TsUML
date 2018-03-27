@@ -12,7 +12,7 @@ export async function yUML(tsConfigPath: string, pattern: string) {
 
   console.log(
     chalk.yellowBright(
-      "Matched files:\n" + sourceFilesPaths.map(s => `${s}\n`)
+      "Matched files:\n" + sourceFilesPaths.reduce((p, c) => `${p}${c}\n`, "")
     )
   );
 

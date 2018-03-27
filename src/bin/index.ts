@@ -9,8 +9,8 @@ import { render } from "../core/renderer";
 
     try {
 
-        if (yargs.argv.h) {
-            console.log(chalk.yellowBright("ts-uml --glob ./src/**/*.ts"));
+        if (yargs.argv.help) {
+            console.log(chalk.yellowBright("tsuml --glob ./src/**/*.ts"));
         }
 
         const pattern = yargs.argv.glob;
@@ -19,7 +19,7 @@ import { render } from "../core/renderer";
             console.log(chalk.redBright("Missing --glob"));
         } else {
             const yuml = await yUML("./tsconfig.json", pattern);
-            const path = await render(yuml);
+            const path = await render(yuml, process.cwd());
             console.log(chalk.greenBright(`Saved UML diagram available at ${path}`));
         }
 
