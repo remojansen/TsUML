@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import chalk from "chalk";
 import * as yargs from "yargs";
 import { yUML } from "../core";
