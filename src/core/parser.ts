@@ -16,7 +16,7 @@ export function getAst(tsConfigPath: string, sourceFilesPaths?: string[]) {
 
 export function parseClasses(classDeclaration: SimpleAST.ClassDeclaration) {
     
-    const className = classDeclaration.getName();
+    const className = classDeclaration.getSymbol()!.getName();
     const propertyDeclarations = classDeclaration.getProperties();
     const methodDeclarations = classDeclaration.getMethods();
 
@@ -43,7 +43,7 @@ export function parseClasses(classDeclaration: SimpleAST.ClassDeclaration) {
 
 export function parseInterfaces(interfaceDeclaration: SimpleAST.InterfaceDeclaration) {
 
-    const interfaceName = interfaceDeclaration.getName();
+    const interfaceName = interfaceDeclaration.getSymbol()!.getName();
     const propertyDeclarations = interfaceDeclaration.getProperties();
     const methodDeclarations = interfaceDeclaration.getMethods();
   
@@ -70,20 +70,43 @@ export function parseInterfaces(interfaceDeclaration: SimpleAST.InterfaceDeclara
 
 export function parseHeritageClauses(classDeclaration: SimpleAST.ClassDeclaration) {
 
-    const className = classDeclaration.getName();
-    const heritageClauses = classDeclaration.getHeritageClauses();
-  
-    const implementsClauses = heritageClauses.map(heritageClause => {
-      return flatten(
-        heritageClause
-          .getChildren()
-          .map(ff => ff.getChildren().map(c => c.getText()))
-      );
-    });
-  
-    const result = flatten(implementsClauses).map(
-        clause => ({ clause, className }) as HeritageClause
-    );
+    const className = classDeclaration.getSymbol()!.getName();
+    const extended =  classDeclaration.getExtends();
+    const implemented =  classDeclaration.getImplements();
+    let heritageClauses: HeritageClause[] = [];
 
-    return result;
+    if (extended) {
+        const identifier = extended.getChildrenOfKind(ts.SyntaxKind.Identifier)[0];
+        if (identifier) {
+            const sym = identifier.getSymbol();
+            if (sym) {
+                heritageClauses.push(
+                    {
+                        clause: sym.getName(),
+                        className
+                    }
+                );
+            }
+        }
+    }
+
+    if (implemented) {
+        implemented.forEach(i => {
+            const identifier = i.getChildrenOfKind(ts.SyntaxKind.Identifier)[0];
+            if (identifier) {
+                const sym = identifier.getSymbol();
+                if (sym) {
+                    heritageClauses.push(
+                        {
+                            clause: sym.getName(),
+                            className
+                        }
+                    );
+                }
+            }
+        });
+    }
+
+    return heritageClauses;
 }
+
