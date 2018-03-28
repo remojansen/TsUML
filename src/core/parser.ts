@@ -20,13 +20,23 @@ export function parseClasses(classDeclaration: SimpleAST.ClassDeclaration) {
     const propertyDeclarations = classDeclaration.getProperties();
     const methodDeclarations = classDeclaration.getMethods();
 
-    const properties = propertyDeclarations.map(property => ({
-        name: property.getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getFullText().trim()
-    } as PropertyDetails));
+    const properties = propertyDeclarations.map(property => {
+        const sym = property.getSymbol();
+        if (sym) {
+            return {
+                name: sym.getName()
+            };
+        }
+    }).filter((p) => p !== undefined) as PropertyDetails[];
 
-    const methods = methodDeclarations.map(method => ({
-        name: method.getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getFullText().trim()
-    } as MethodDetails));
+    const methods = methodDeclarations.map(method => {
+        const sym = method.getSymbol();
+        if (sym) {
+            return {
+                name: sym.getName()
+            }
+        }
+    }).filter((p) => p !== undefined) as MethodDetails[];
 
     return { className, properties, methods };
 }
@@ -37,13 +47,23 @@ export function parseInterfaces(interfaceDeclaration: SimpleAST.InterfaceDeclara
     const propertyDeclarations = interfaceDeclaration.getProperties();
     const methodDeclarations = interfaceDeclaration.getMethods();
   
-    const properties = propertyDeclarations.map(property => ({
-        name: property.getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getFullText().trim()
-    } as PropertyDetails));
+    const properties = propertyDeclarations.map(property => {
+        const sym = property.getSymbol();
+        if (sym) {
+            return {
+                name: sym.getName()
+            }
+        }
+    }).filter((p) => p !== undefined) as PropertyDetails[];
   
-    const methods = methodDeclarations.map(method => ({
-        name: method.getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getFullText().trim()
-    } as MethodDetails));
+    const methods = methodDeclarations.map(method => {
+        const sym = method.getSymbol();
+        if (sym) {
+            return {
+                name: sym.getName()
+            }
+        }
+    }).filter((p) => p !== undefined) as MethodDetails[];
   
     return { interfaceName, properties, methods };
 }
@@ -57,7 +77,7 @@ export function parseHeritageClauses(classDeclaration: SimpleAST.ClassDeclaratio
       return flatten(
         heritageClause
           .getChildren()
-          .map(ff => ff.getChildren().map(c => c.getFullText().trim()))
+          .map(ff => ff.getChildren().map(c => c.getText()))
       );
     });
   

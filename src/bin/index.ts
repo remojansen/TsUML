@@ -2,8 +2,7 @@
 
 import chalk from "chalk";
 import * as yargs from "yargs";
-import { yUML } from "../core";
-import { render } from "../core/renderer";
+import { getUrl } from "../core";
 
 (async () => {
 
@@ -18,9 +17,9 @@ import { render } from "../core/renderer";
         if (!pattern) {
             console.log(chalk.redBright("Missing --glob"));
         } else {
-            const yuml = await yUML("./tsconfig.json", pattern);
-            const path = await render(yuml, process.cwd());
-            console.log(chalk.greenBright(`Saved UML diagram available at ${path}`));
+            const url = await getUrl("./tsconfig.json", pattern);
+            const opn = require("opn");
+            opn(url);
         }
 
     } catch(e) {

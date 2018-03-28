@@ -14,10 +14,21 @@ export async function findFilesByGlob(pattern: string) {
     });
 }
 
-export function download(uri: string, filename: string, callback: () => void) {
-    request.head(uri, (err, res, body) => {
-        request(uri)
-        .pipe(fs.createWriteStream(filename))
-        .on("close", callback);
+export async function download(dsl: string) {
+    return new Promise<string>((resolve, reject) => {
+        const url = "https://yuml.me/diagram/scruffy/class/";
+        const options = {
+            form: {
+                dsl_text: dsl
+            }
+        };
+        request.post(url, options, (err, res, body) => {
+            if (err) {
+                reject(err);
+            }
+            const svgFileName = body.replace(".png", ".svg");
+            const diagramUrl = `${url}${svgFileName}`;
+            resolve(diagramUrl);
+        });
     });
 };

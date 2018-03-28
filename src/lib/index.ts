@@ -1,2 +1,1 @@
-export { yUML } from "../core";
-export { render } from "../core/renderer";
+export { getUrl } from "../core";

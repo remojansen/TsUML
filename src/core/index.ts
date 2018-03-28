@@ -1,12 +1,11 @@
 import * as fs from "fs";
 import chalk from "chalk";
 import { flatten, join } from "lodash";
-import { findFilesByGlob } from "./io";
+import { findFilesByGlob, download } from "./io";
 import { getAst, parseClasses, parseInterfaces, parseHeritageClauses } from "./parser";
 import { emitSingleClass, emitSingleInterface, emitHeritageClauses } from "./emitter";
-import { render } from "./renderer";
 
-export async function yUML(tsConfigPath: string, pattern: string) {
+async function getDsl(tsConfigPath: string, pattern: string) {
 
   const sourceFilesPaths = await findFilesByGlob(pattern);
 
@@ -42,4 +41,9 @@ export async function yUML(tsConfigPath: string, pattern: string) {
 
   return join(flatten(entities), ",");
 
+}
+
+export async function getUrl(tsConfigPath: string, pattern: string) {
+  const dsl = await getDsl(tsConfigPath, pattern);
+  return await download(dsl);
 }

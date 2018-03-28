@@ -1,7 +1,6 @@
 import { PropertyDetails, MethodDetails} from "./interfaces";
 
 export const templates = {
-    url: (dsl: string) => `http://yuml.me/diagram/scruffy/class/${dsl}`,
     composition: "+->",
     implementsOrExtends: (abstraction: string, implementation: string) => {
         return (
@@ -17,7 +16,7 @@ export const templates = {
         const mTemplate = (method: MethodDetails) => `${method.name}();`;
         return (
         `${templates.colorClass(name)}` +
-        `[${name}|${props.map(pTemplate)}|${methods.map(mTemplate)}]`
+        `[${name}|${props.map(pTemplate).join("")}|${methods.map(mTemplate).join("")}]`
         );
     },
     interface: (
@@ -29,7 +28,7 @@ export const templates = {
         const mTemplate = (method: MethodDetails) => `${method.name}();`;
         return (
         `${templates.colorInterface(name)}` +
-        `[${name}|${props.map(pTemplate)}|${methods.map(mTemplate)}]`
+        `[${name}|${props.map(pTemplate).join("")}|${methods.map(mTemplate).join("")}]`
         );
     }
 };

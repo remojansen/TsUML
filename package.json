@@ -1,6 +1,6 @@
 {
   "name": "tsuml",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "description": "UML diagrams for TypeScript",
   "main": "dist/lib/index.js",
   "bin": {
@@ -10,6 +10,7 @@
     "@types/glob": "5.0.35",
     "@types/lodash": "4.14.106",
     "@types/node": "9.6.0",
+    "@types/opn": "5.1.0",
     "@types/request": "2.47.0",
     "@types/yargs": "11.0.0"
   },
@@ -17,6 +18,7 @@
     "chalk": "2.3.2",
     "glob": "7.1.2",
     "lodash": "4.17.5",
+    "opn": "5.3.0",
     "request": "2.85.0",
     "ts-simple-ast": "9.5.0",
     "typescript": "2.7.2",
