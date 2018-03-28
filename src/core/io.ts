@@ -16,7 +16,7 @@ export async function findFilesByGlob(pattern: string) {
 
 export async function download(dsl: string) {
     return new Promise<string>((resolve, reject) => {
-        const url = "https://yuml.me/diagram/scruffy/class/";
+        const url = "https://yuml.me/diagram/plain/class/";
         const options = {
             form: {
                 dsl_text: dsl
