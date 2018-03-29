@@ -14,12 +14,12 @@ Generate UML diagram for your TypeScript applications powered by https://yuml.me
 npm install -g tsuml
 ```
 
-## CLI
+## Usage
 
 ```
 tsuml --glob ./src/**/*.ts
 ```
 
-The output looks as follows:
+The diagram generated for the code under the [demo folder](https://github.com/remojansen/TsUML/tree/master/src/demo) looks as follows:
 
-![](/assets/uml_diagram_1522152305135.png)
+![](/assets/uml_diagram.svg)
