@@ -17,9 +17,9 @@ npm install -g tsuml
 ## Usage
 
 ```
-tsuml --glob ./src/**/*.ts
+tsuml --glob './src/**/*.ts'
 ```
-
+(note : quotes needed)
 The diagram generated for the code under the [demo folder](https://github.com/remojansen/TsUML/tree/master/src/demo) looks as follows:
 
 ![](/assets/uml_diagram.svg)
